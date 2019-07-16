@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 # Google 搜尋 URL
 google_url = 'https://www.google.com.tw/search'
 
-# 查詢參數q
+# 查詢參數
 inputname = input('請輸入景點：')
 j = inputname + '評論'
 my_params = {'q': j}
