@@ -21,7 +21,7 @@ if r.status_code == requests.codes.ok:
     # 標題
            #print("標題：" + i.text)
     # 網址
-           #print("網址：" + i.get('href')[7:])
+            print("網址：" + i.get('href')[7:])
 
 res = requests.get(attraction_url)
 html_doc = res.text
@@ -35,8 +35,26 @@ for h1_tag in h1_tags:
     if h1_tag.string is None:
         pass
     else:
-        print("您所搜尋的景點為：",h1_tag.string,"\n")
+        print("您所搜尋的景點為：",inputname)
 
+label_tags = soup.find_all('label',class_="row_label label",limit=5)
+span_tags = soup.find_all('span',class_="row_num is-shown-at-tablet")
+labellist=[]
+spanlist=[]
+for label_tag in label_tags:
+    labellist.append(label_tag.string)
+for span_tag in span_tags:
+    spanlist.append(span_tag.string)
+dictionary = dict(zip(labellist, spanlist))
+print("評分: ",end='')
+print(dictionary,"\n")
+# for x in dictionary:
+#     print(x)
+#     for y in dictionary[x]:
+#         print(y,end='')
+
+
+print("------------------評論------------------")
 any_tags = soup.find_all('p', class_="partial_entry")
 i=1
 for tag in any_tags:
