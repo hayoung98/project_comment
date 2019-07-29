@@ -45,12 +45,21 @@ for index in range(100):
     for span_tag in span_tags:
         spanlist.append(span_tag.string)
     dictionary = dict(zip(labellist, spanlist))
+
+
     print("評分: ",end='')
 
     if bool(dictionary) == False:
         print('目前尚無評分')
     else:
         print(dictionary,"\n")
+        great_count = int(dictionary.get("很棒"))
+        verygood_count = int(dictionary.get("非常好"))
+        good_count = int(dictionary.get("一般"))
+        poor_count = int(dictionary.get("差"))
+        terrible_count = int(dictionary.get("糟透了"))
+        print('方式1分數: ',great_count+verygood_count)
+        print('方式2分數: ', (great_count*5 + verygood_count*4 + good_count*3+poor_count*2+terrible_count*1)/(great_count+verygood_count+good_count+poor_count+terrible_count))
 
     print("****************評論****************")
     any_tags = soup.find_all('p', class_="partial_entry")
