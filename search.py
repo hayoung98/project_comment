@@ -1,10 +1,15 @@
 import requests
 from bs4 import BeautifulSoup
 import json
+from pandas import DataFrame
 
 url = "https://data.tycg.gov.tw/api/v1/rest/datastore/bd906b29-9006-40ed-8bd7-67597c2577fc?format=json"
 r = requests.get(url)
 data = json.loads(r.text)
+# 存入excel的list
+attraction_name_list = []
+hot_list=[]
+score_list=[]
 
 for index in range(100):
 # Google 搜尋 URL
@@ -58,8 +63,14 @@ for index in range(100):
         good_count = int(dictionary.get("一般"))
         poor_count = int(dictionary.get("差"))
         terrible_count = int(dictionary.get("糟透了"))
-        print('方式1分數: ',great_count+verygood_count)
-        print('方式2分數: ', (great_count*5 + verygood_count*4 + good_count*3+poor_count*2+terrible_count*1)/(great_count+verygood_count+good_count+poor_count+terrible_count))
+
+        hot = great_count+verygood_count
+        score = (great_count*5 + verygood_count*4 + good_count*3+poor_count*2+terrible_count*1)/(great_count+verygood_count+good_count+poor_count+terrible_count)
+        print('人氣: ',hot)
+        print('評分: ', score)
+        attraction_name_list.append(inputname)
+        hot_list.append(hot)
+        score_list.append(score)
 
     print("****************評論****************")
     any_tags = soup.find_all('p', class_="partial_entry")
@@ -74,3 +85,6 @@ for index in range(100):
     any_tags.clear()
 
 print("--------------------------------------------------------------------------------------------------------------------------------")
+data={'景點名稱':attraction_name_list,'人氣':hot_list,'評分':score_list}
+df=DataFrame(data)
+df.to_excel('排名.xlsx')
