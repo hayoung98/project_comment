@@ -66,23 +66,41 @@ for index in range(100):
 
         attraction_name_list.append(inputname)
         hot_list.append(hot)
-        score_list.append(score)
+        score_list.append(round(score,2))
 
 data={'景點名稱':attraction_name_list,'人氣':hot_list,'評分':score_list}
 df=DataFrame(data)
 df.to_excel('排名.xlsx')
 
 read = pd.read_excel('排名.xlsx',index_col=0)
+
 resort_hot = read.sort_values(by=['人氣'], ascending=False)
 hot_f = codecs.open('./File/sort_hot.txt','w','utf-8')
+hot_ff = open('./File/hot.txt','w')
+mainhot_score_f = open('./File/mainhot_score.txt','w')
 for i in range(10):
     hot_f.write(resort_hot.iloc[i,0])
     hot_f.write("\r\n")
+    hot_ff.write(str(resort_hot.iloc[i, 1]))
+    hot_ff.write("\n")
+    mainhot_score_f.write(str(resort_hot.iloc[i, 2]))
+    mainhot_score_f.write("\n")
 hot_f.close()
+hot_ff.close()
+mainhot_score_f.close()
+
 
 resort_score = read.sort_values(by=['評分'], ascending=False)
 score_f = codecs.open('./File/sort_score.txt','w','utf-8')
+score_ff = open('./File/score.txt','w')
+mainscore_hot_f = open('./File/mainscore_hot.txt','w')
 for j in range(10):
     score_f.write(resort_score.iloc[j,0])
     score_f.write("\r\n")
+    score_ff.write(str(resort_score.iloc[j, 2]))
+    score_ff.write("\n")
+    mainscore_hot_f.write(str(resort_score.iloc[j, 1]))
+    mainscore_hot_f.write("\n")
 score_f.close()
+score_ff.close()
+mainscore_hot_f.close()
