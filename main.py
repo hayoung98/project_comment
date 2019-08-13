@@ -66,13 +66,24 @@ def createfile():
 
 def search():
 	search_f = codecs.open('./File/search_result.txt','w','utf-8')
+	search_ff = open('./File/search_result2.txt','w')
 	read = pd.read_excel('new.xlsx')
-	for i in range(100):		
+	read2 = pd.read_excel('排名.xlsx')
+	#print("長度",read2.shape[0])
+	read2_len = read2.shape[0]
+	for i in range(100):				
 		if sys.argv[2] == read.iloc[i,1]:
 			for j in range(2,7):
 				search_f.writelines(read.iloc[i,j])
 				search_f.write("\r\n")
+	for j in range(read2_len):
+		if sys.argv[2] == read2.iloc[j,1]:
+		 	# print(read2.iloc[i,1])
+			for k in range(2,4):
+		 		search_ff.writelines(str(read2.iloc[j,k]))
+		 		search_ff.write("\n")
 	search_f.close()
+	search_ff.close()
 
 if __name__ == "__main__":
 	eval(sys.argv[1])
